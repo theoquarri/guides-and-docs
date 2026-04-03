@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarri — How to Use Quarri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { font-family: 'Archivo', sans-serif; background: #f7f6f3; color: #111111; line-height: 1.6; }
+
+        /* Hero */
+        .hero {
+            background: #111111;
+            color: #ffffff;
+            padding: 56px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -8%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(218,119,86,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: heroIn 0.8s ease-out;
+        }
+        .hero-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #da7756;
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        .hero h1 span { color: #da7756; }
+        .hero p {
+            font-size: 16px;
+            color: #b0aea5;
+            max-width: 700px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 32px;
+        }
+
+        /* Section labels & titles */
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #da7756;
+            margin-bottom: 8px;
+        }
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 8px;
+        }
+        .section-desc {
+            font-size: 15px;
+            color: #555555;
+            line-height: 1.7;
+            max-width: 800px;
+            margin-bottom: 32px;
+        }
+        .subsection-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #da7756;
+            margin: 32px 0 12px 0;
+        }
+
+        /* Body text */
+        .body-text {
+            font-size: 14px;
+            color: #555555;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            max-width: 800px;
+        }
+        .body-text strong { color: #111111; font-weight: 600; }
+        .body-text em { font-style: italic; }
+        .body-text a { color: #da7756; text-decoration: none; font-weight: 500; }
+        .body-text a:hover { color: #c66548; text-decoration: underline; }
+
+        /* Cards */
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 24px 28px;
+            border: 1px solid #e5e4e0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+        }
+        .card-accent {
+            border-left: 4px solid #da7756;
+        }
+        .card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111111;
+            margin-bottom: 8px;
+        }
+        .card p {
+            font-size: 14px;
+            color: #555555;
+            line-height: 1.7;
+        }
+
+        /* Prompt boxes */
+        .prompt-box {
+            background: #f5f0eb;
+            border-left: 4px solid #da7756;
+            border-radius: 0 8px 8px 0;
+            padding: 14px 20px;
+            margin: 12px 0 16px 0;
+            font-size: 14px;
+            font-style: italic;
+            color: #111111;
+            max-width: 700px;
+        }
+
+        /* Bullet lists */
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 12px 0 20px 0;
+            max-width: 800px;
+        }
+        .bullet-list li {
+            font-size: 14px;
+            color: #555555;
+            line-height: 1.7;
+            padding: 6px 0 6px 20px;
+            position: relative;
+        }
+        .bullet-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 14px;
+            width: 6px;
+            height: 6px;
+            background: #da7756;
+            border-radius: 50%;
+        }
+        .bullet-list li strong { color: #111111; font-weight: 600; }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px 0;
+            font-size: 13px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e4e0;
+        }
+        .data-table thead th {
+            background: #111111;
+            color: #ffffff;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 13px;
+        }
+        .data-table tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e4e0;
+            color: #555555;
+            line-height: 1.6;
+        }
+        .data-table tbody td:first-child {
+            font-weight: 600;
+            color: #111111;
+            white-space: nowrap;
+        }
+        .data-table tbody tr:nth-child(even) {
+            background: #f7f6f3;
+        }
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: #e5e4e0;
+            margin: 48px 0;
+        }
+
+        /* Two-column grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 16px 0 24px 0;
+        }
+
+        /* Three-column grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 16px 0 24px 0;
+        }
+
+        /* Accuracy banner */
+        .accuracy-banner {
+            background: #111111;
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin: 24px 0;
+            color: #ffffff;
+        }
+        .accuracy-banner h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+        .accuracy-banner .item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .accuracy-banner .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 6px;
+        }
+        .accuracy-banner .dot.green { background: #4ade80; }
+        .accuracy-banner .dot.yellow { background: #fbbf24; }
+        .accuracy-banner .dot.red { background: #f87171; }
+        .accuracy-banner .item-text {
+            font-size: 14px;
+            color: #d0cfc8;
+            line-height: 1.6;
+        }
+        .accuracy-banner .item-text strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Support CTA */
+        .support {
+            background: #111111;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            color: #ffffff;
+            margin-top: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .support::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(218,119,86,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .support h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .support p {
+            font-size: 14px;
+            color: #b0aea5;
+            position: relative;
+        }
+
+        /* Footer */
+        footer {
+            padding: 32px;
+            text-align: center;
+            color: #888888;
+            font-size: 12px;
+            border-top: 1px solid #e5e4e0;
+            margin-top: 48px;
+        }
+        footer a { color: #da7756; text-decoration: none; font-weight: 500; }
+        footer a:hover { color: #c66548; }
+
+        /* Animations */
+        @keyframes heroIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal { animation: revealUp 0.6s ease-out backwards; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 28px; }
+            .container { padding: 32px 16px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-label">User Guide</div>
+            <h1>How to Use <span>Quarri</span></h1>
+            <p>A practical guide to understanding and working with Quarri through Claude - querying data, building automations, saving skills, and more.</p>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <!-- ============ WHAT IS CLAUDE ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">Background</div>
+            <div class="section-title">What is Claude?</div>
+            <p class="body-text">Claude is an AI assistant built by Anthropic. It&rsquo;s available as a desktop application (Mac and Windows) that you interact with through natural language - you type questions or instructions and Claude responds with answers, analysis, code, documents, or actions.</p>
+            <p class="body-text">Claude is a <strong>large language model (LLM)</strong>. That means it&rsquo;s extremely capable at reasoning, writing, analysis, and working with data - but it&rsquo;s also non-deterministic by nature. Two identical prompts may produce slightly different outputs. This is important to keep in mind when using Claude for data analysis (more on this below).</p>
+            <p class="body-text">Claude supports <strong>connectors</strong> - integrations that give it access to external tools and data sources. Quarri is one of these connectors.</p>
+
+            <div class="subsection-title">Working with files and documents</div>
+            <p class="body-text">You can drop files directly into Claude - spreadsheets, PDFs, Word documents, images, CSVs - and Claude can read, analyse, and work with them. When combined with Quarri, this means you can upload a document and ask Claude to cross-reference it against your database, or drop in a spreadsheet and ask it to reconcile against your live data.</p>
+
+            <div class="subsection-title">Presentations</div>
+            <p class="body-text">Claude can also build PowerPoint presentations directly. You can describe the slides you need and Claude will generate a .pptx file. Combined with Quarri, this means you can create data-driven presentations that pull live numbers from your database - then save the workflow as a skill so the presentation can be regenerated with updated data whenever you need it.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ WHAT IS QUARRI ============ -->
+        <div class="reveal" style="animation-delay: 0.15s;">
+            <div class="section-title">What is Quarri?</div>
+            <p class="body-text">Quarri is a data platform that connects your company&rsquo;s databases and data sources to Claude. It provides a set of <strong>deterministic tools</strong> - tools that produce exact, repeatable results every time - for retrieving, querying, and working with your data.</p>
+            <p class="body-text">Where Claude is an LLM that reasons and generates, Quarri&rsquo;s tools are precise and traceable. When Quarri retrieves data from your database, it runs an exact SQL query and returns exact results. There&rsquo;s no interpretation or generation involved in the data retrieval itself - <strong>the data you get back is the data in your database.</strong></p>
+            <p class="body-text">Quarri also provides a persistent storage layer. You can save dashboards, reports, skills (saved workflows), business logic, and metrics into Quarri so they&rsquo;re available across sessions. Anything saved in Quarri can be retrieved from Claude or viewed at <a href="https://app.quarri.ai" target="_blank">app.quarri.ai</a>.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ QUARRI + CLAUDE ============ -->
+        <div class="reveal" style="animation-delay: 0.2s;">
+            <div class="section-title">Quarri + Claude: How They Work Together</div>
+            <p class="body-text">The combination of Claude and Quarri gives you the best of both worlds: Claude&rsquo;s natural language understanding and reasoning paired with Quarri&rsquo;s deterministic, precise data tools.</p>
+            <p class="body-text">In practice, this means you can describe what you need in plain English, and Claude will use Quarri&rsquo;s tools to query your database, build reports, generate dashboards, and execute workflows - all with traceable, auditable data underneath.</p>
+
+            <div class="subsection-title">A note on accuracy</div>
+            <p class="body-text">Because Quarri&rsquo;s data retrieval is deterministic, the data itself is always accurate. However, when Claude <em>analyses or interprets</em> that data - drawing conclusions, computing summaries, or pulling in external information - it&rsquo;s using its LLM capabilities, which are not deterministic. This means:</p>
+
+            <div class="accuracy-banner">
+                <div class="item">
+                    <div class="dot green"></div>
+                    <div class="item-text"><strong>Data pulled through Quarri tools</strong> - always accurate and traceable</div>
+                </div>
+                <div class="item">
+                    <div class="dot yellow"></div>
+                    <div class="item-text"><strong>Analysis and interpretation by Claude</strong> - highly capable but should be verified, especially for critical decisions</div>
+                </div>
+                <div class="item">
+                    <div class="dot red"></div>
+                    <div class="item-text"><strong>External data pulled by Claude (from the web)</strong> - always double-check. Ask Claude to verify its sources and cross-reference results</div>
+                </div>
+            </div>
+
+            <p class="body-text">A good habit: for anything high-stakes, ask Claude to show its working and check its results. Storing datasets in Quarri (rather than having Claude pull them ad-hoc from the web) is one way to keep things deterministic and reliable.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ ACCESS LEVELS ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">Getting Started</div>
+            <div class="section-title">Access Levels</div>
+            <p class="body-text">Quarri supports different access levels depending on your role and Claude subscription:</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Access Level</th><th>What you can do</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Viewer (no Claude subscription)</td><td>View dashboards and reports shared with you via Quarri (e.g. links to app.quarri.ai or HTML exports).</td></tr>
+                    <tr><td>Viewer (with Claude subscription)</td><td>Everything above, plus ask questions of your data through Claude. Query, explore, and analyse interactively.</td></tr>
+                    <tr><td>Admin</td><td>Full access. Build custom workflows, save reports and dashboards into Quarri, manage skills, and configure automations.</td></tr>
+                </tbody>
+            </table>
+
+            <div class="card card-accent">
+                <h3>Privacy setting</h3>
+                <p>If you&rsquo;re not yet on a Claude Team or Enterprise subscription, go to <strong>File &rarr; Settings &rarr; Privacy</strong> and set <strong>&ldquo;Help improve Claude&rdquo; to Off</strong>. This prevents the model from training on your conversations. This is already disabled by default on Claude Team and Enterprise plans.</p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ 1. QUERYING ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">Core Features</div>
+            <div class="section-title">1. Querying Data and Information</div>
+            <p class="body-text">Once Quarri is connected to Claude, you can ask questions about your data in plain English. Claude queries your live database through Quarri&rsquo;s data retrieval tools and returns results you can explore, filter, and export.</p>
+
+            <div class="subsection-title">What you can do</div>
+            <ul class="bullet-list">
+                <li><strong>Ask natural language questions</strong> - &ldquo;What was our revenue by region last quarter?&rdquo;, &ldquo;Show me the top 10 customers by order value&rdquo;</li>
+                <li><strong>Run analysis across your connected data sources</strong> - Quarri handles the query translation, so you don&rsquo;t need to write SQL</li>
+                <li><strong>Explore results interactively</strong> - follow up with deeper questions, filter down, or ask for different views of the same data</li>
+                <li><strong>Generate reports and dashboards</strong> - ask Claude to build a summary, chart, or formatted report from your query results</li>
+                <li><strong>Export data</strong> - download query results into spreadsheets or other formats for further use</li>
+            </ul>
+
+            <div class="subsection-title">How it works</div>
+            <p class="body-text">When you ask a question, Claude uses Quarri&rsquo;s data retrieval tools to query your database, execute the analysis, and return results. All business logic is traceable - you can see the queries being run and the data behind every answer.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ 2. WORKFLOWS ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-title">2. Creating Workflows and Automations</div>
+            <p class="body-text">Beyond querying, Quarri supports building repeatable workflows and automations. These are processes that combine data retrieval, logic, and output - things you&rsquo;d otherwise do manually in spreadsheets.</p>
+
+            <div class="subsection-title">Examples</div>
+            <ul class="bullet-list">
+                <li><strong>Recurring reports</strong> - a report that pulls live data, applies business rules, and produces a formatted output every period</li>
+                <li><strong>Data reconciliation</strong> - automate the comparison and matching of data across sources</li>
+                <li><strong>Dashboard generation</strong> - build interactive dashboards from your data that can be saved and reused (see Saving Skills below)</li>
+            </ul>
+
+            <div class="subsection-title">How to create a workflow</div>
+            <p class="body-text">Describe what you want to Claude in plain language. For example:</p>
+            <div class="prompt-box">&ldquo;Build me a monthly accrual report that pulls the data, applies the current rates, and formats it for review.&rdquo;</div>
+            <p class="body-text">Claude will use Quarri&rsquo;s tools to build the logic, run the queries, and produce the output. Once you&rsquo;re happy with it, you can save it as a skill (see Section 3).</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ 3. SKILLS ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-title">3. Saving, Retrieving, and Managing Skills</div>
+            <p class="body-text">Skills are saved workflows, reports, dashboards, and automations stored in Quarri. Once something is working the way you want, you can save it as a skill so that you or your team can reuse it without rebuilding from scratch.</p>
+
+            <div class="subsection-title">Listing available skills</div>
+            <p class="body-text">To see what&rsquo;s available, ask Claude:</p>
+            <div class="prompt-box">&ldquo;List my skills in Quarri&rdquo;</div>
+            <p class="body-text">Claude will return a list of all skills available to you. This includes both <strong>general skills</strong> (available to all Quarri users) and <strong>company-specific skills</strong> (built for your organisation&rsquo;s data and workflows).</p>
+
+            <div class="subsection-title">Using a skill</div>
+            <p class="body-text">Once you see a skill you want to use, simply tell Claude:</p>
+            <div class="prompt-box">&ldquo;I want to use the stumpage accrual report in Quarri&rdquo;</div>
+            <p class="body-text">Claude will load the skill, run it against your live data, and return the output - whether that&rsquo;s a formatted report, a dashboard, an analysis, or an automated workflow.</p>
+
+            <div class="subsection-title">Saving a new skill</div>
+            <p class="body-text">When you&rsquo;ve built something you want to keep - a report, dashboard, or automation - ask Claude to save it:</p>
+            <div class="prompt-box">&ldquo;Save this as a skill in Quarri called Monthly Stumpage Accrual&rdquo;</div>
+            <p class="body-text">The skill will be saved in Quarri and available for future use.</p>
+
+            <div class="subsection-title">Updating an existing skill</div>
+            <p class="body-text">If you need to modify a skill, ask Claude to retrieve it in detail:</p>
+            <div class="prompt-box">&ldquo;Bring back the Monthly Stumpage Accrual skill from Quarri in full detail, step by step&rdquo;</div>
+            <p class="body-text">Claude will return the skill&rsquo;s full logic in natural language - every step, every rule, every data source. You can then iterate on it: change thresholds, add new fields, adjust the logic. When you&rsquo;re happy, save the updated version back to Quarri.</p>
+
+            <div class="subsection-title">Skills vs. Dashboards</div>
+            <p class="body-text">A <strong>skill</strong> is a saved workflow - the logic, steps, and rules that produce an output. A <strong>dashboard</strong> is the final visual output itself: charts, tables, and KPIs rendered with a live API connection to your data.</p>
+            <p class="body-text">When Claude builds a dashboard for you, you can save it directly into Quarri exactly as it appears. Saved dashboards maintain their live data connection, so the numbers update automatically. They can be retrieved from Claude in future sessions or viewed at <a href="https://app.quarri.ai" target="_blank">app.quarri.ai</a>.</p>
+            <div class="prompt-box">&ldquo;Save this dashboard in Quarri&rdquo;</div>
+            <p class="body-text">You can also combine the two: save the workflow that builds a dashboard as a skill, so you can regenerate it with updated data anytime by loading the skill.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ 4. QUARRI MEMORY ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-title">4. Quarri Memory</div>
+            <p class="body-text">Beyond skills, Quarri has a persistent memory layer where you can store metrics, business logic, rules, and standard definitions. This means Claude applies your rules consistently every time.</p>
+
+            <div class="subsection-title">What you can store in memory</div>
+            <ul class="bullet-list">
+                <li><strong>Business rules and logic</strong> - e.g. how to calculate a specific metric, which accounts to include or exclude</li>
+                <li><strong>Standard definitions</strong> - e.g. what counts as &ldquo;active&rdquo;, how regions are grouped, fiscal period boundaries</li>
+                <li><strong>Recurring workflow parameters</strong> - e.g. the format, recipients, and data sources for a monthly report</li>
+                <li><strong>Company-specific context</strong> - terminology, org structure, naming conventions that Claude should always apply</li>
+            </ul>
+
+            <p class="body-text">When these are stored in Quarri, Claude can reference them automatically. For example, if you&rsquo;ve defined how your monthly consolidation report should work - which systems to pull from, which rules to apply, and how to format the output - you can simply ask Claude to run it each month and the rules are applied consistently.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ 5. QUARRI IN EXCEL ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">Integrations</div>
+            <div class="section-title">5. Quarri Data in Excel</div>
+            <p class="body-text">Claude is available as a plugin directly inside Microsoft Excel. Because the Excel plugin connects to your Claude account - and your Claude account has the Quarri connector - you can pull data from Quarri straight into your spreadsheets without leaving Excel.</p>
+
+            <div class="subsection-title">How it works</div>
+            <p class="body-text">The Claude panel sits in the right-hand sidebar of Excel. You interact with it the same way you would in the desktop app - type a question or instruction in natural language. Claude can read and write to cells in your workbook, and because it has access to Quarri, it can also query your live database.</p>
+
+            <div class="subsection-title">What you can do</div>
+            <ul class="bullet-list">
+                <li><strong>Pull live data into cells</strong> - &ldquo;Pull last quarter&rsquo;s revenue by region from Quarri and put it in this sheet&rdquo;</li>
+                <li><strong>Refresh existing reports</strong> - if you have a spreadsheet that uses Quarri data, ask Claude to update it with the latest numbers</li>
+                <li><strong>Build models from live data</strong> - pull actuals from Quarri and layer in your own formulas, projections, and analysis in Excel</li>
+                <li><strong>Run Quarri skills</strong> - load a saved Quarri skill and have the results output directly into your workbook</li>
+                <li><strong>Clean and transform data</strong> - Claude can also help with standard Excel tasks like formatting, formulas, and data manipulation alongside Quarri queries</li>
+            </ul>
+
+            <div class="subsection-title">Getting started</div>
+            <p class="body-text">Claude in Excel is available as an add-in. Once installed, click the <strong>Claude</strong> button in the Excel ribbon to open the panel. If your Claude account already has the Quarri connector set up, it will be available automatically - no additional configuration needed.</p>
+            <p class="body-text">This is particularly useful for finance, operations, and any team that works primarily in spreadsheets. Rather than exporting data from one system and manually pasting it into Excel, you can query Quarri directly from inside your workbook.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ DATA SCHEMAS ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">Reference</div>
+            <div class="section-title">A Note on Data Schemas</div>
+            <p class="body-text">Some skills rely on underlying data schemas - the structure that defines how your data is organised, what fields are available, and how tables relate to each other. Changes to data schemas can have significant downstream effects on existing skills and reports.</p>
+            <p class="body-text"><strong>To prevent anything fundamental from breaking, schema changes are managed by the Quarri team.</strong> This means you have a safe space to create, edit, and save skills freely using the Quarri tools available to you, without the risk of disrupting the data foundations that everything runs on.</p>
+            <p class="body-text">If a skill you&rsquo;re building requires a schema change - for example, adding a new data source, creating a new calculated field, or restructuring how tables connect - reach out to the Quarri team and we&rsquo;ll work with you to make the update.</p>
+
+            <div class="subsection-title">Adding external data sources</div>
+            <p class="body-text">Claude can pull data from external sources on the web - for example, weather data, CPI statistics, or other publicly available APIs. For <strong>one-off requests</strong> (e.g. &ldquo;pull last month&rsquo;s CPI data and add it to my report&rdquo;), Claude can do this directly and there&rsquo;s no additional cost or setup.</p>
+            <p class="body-text">For <strong>live, ongoing connections</strong> or <strong>large datasets</strong> (e.g. historical weather data across multiple locations), contact the Quarri team. Claude has limits on how much data it can process in a single conversation, but Quarri is built to handle large volumes efficiently. We&rsquo;ll set up a dedicated connector so the data flows in reliably, is stored at scale, and is available to all your skills and workflows.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ TOOL SUMMARY ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-title">What the Quarri Tools Can Do</div>
+            <p class="body-text">The Quarri tools available to you through Claude focus on working with your data - everything outside of the underlying data modelling and schema management:</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Capability</th><th>What you can do</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Data Retrieval</td><td>Query your live database in natural language. Ask questions, filter results, explore data interactively.</td></tr>
+                    <tr><td>Querying &amp; Analysis</td><td>Run complex analysis across connected data sources without writing SQL. Compare periods, segment data, calculate metrics.</td></tr>
+                    <tr><td>Report Generation</td><td>Build formatted reports and summaries from your query results. Export to spreadsheets or other formats.</td></tr>
+                    <tr><td>Dashboard Building</td><td>Create interactive dashboards from your data. Save them for reuse and share with your team.</td></tr>
+                    <tr><td>Logic &amp; Automations</td><td>Build repeatable workflows that combine data retrieval, business rules, and formatted outputs.</td></tr>
+                    <tr><td>Skill Management</td><td>Save, retrieve, update, and organise skills. List available skills, load them, or iterate and save new versions.</td></tr>
+                    <tr><td>Memory &amp; Context</td><td>Store business rules, metrics, definitions, and workflow parameters. Claude references these automatically for consistent results.</td></tr>
+                    <tr><td>Claude in Excel</td><td>Pull Quarri data directly into Excel spreadsheets. Query live data, refresh reports, run skills, and build models without leaving your workbook.</td></tr>
+                    <tr><td>Presentations</td><td>Build PowerPoint presentations from your data. Save the workflow as a skill to regenerate with updated numbers anytime.</td></tr>
+                    <tr><td>File &amp; Document Support</td><td>Drop files into Claude (spreadsheets, PDFs, CSVs, images) and work with them alongside your Quarri data.</td></tr>
+                </tbody>
+            </table>
+
+            <div class="subsection-title">What the Quarri team manages</div>
+            <ul class="bullet-list">
+                <li>Data modelling and schema design</li>
+                <li>Connecting new data sources</li>
+                <li>Schema changes and structural updates</li>
+                <li>Data ingestion infrastructure</li>
+                <li>Data security and environment isolation</li>
+                <li>Live external data connectors (e.g. weather APIs, CPI feeds)</li>
+            </ul>
+        </div>
+
+        <!-- Support CTA -->
+        <div class="support">
+            <h3>Need Help?</h3>
+            <p>Reach out to the Quarri team for setup assistance, training, or data source requests.</p>
+        </div>
+
+    </div>
+
+    <footer>
+        Quarri User Guide - <a href="https://quarri.ai" target="_blank">quarri.ai</a>
+    </footer>
+
+</body>
+</html>
