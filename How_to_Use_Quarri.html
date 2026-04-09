@@ -425,6 +425,25 @@
 
         <div class="divider"></div>
 
+        <!-- ============ MODEL & MODE ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">Getting Started</div>
+            <div class="section-title">Choosing the Right Model and Mode</div>
+            <p class="body-text">Quarri workflows involve complex, multi-step reasoning under the hood - schema discovery, SQL generation, data transformation, and reconciliation. Which Claude model and mode you use makes a real difference in how reliably these workflows run.</p>
+
+            <div class="subsection-title">Recommended settings</div>
+            <ul class="bullet-list">
+                <li><strong>Mode: use Cowork</strong> for any non-trivial Quarri task. Cowork gives Claude the tools and workspace it needs to run multi-step workflows end-to-end. Chat is fine for quick questions, but switch to Cowork as soon as things get more involved.</li>
+                <li><strong>Model: use Opus 4.6</strong> for complex workflows like accruals, reconciliations, building or editing skills, and multi-source joins. <strong>Sonnet is the minimum</strong> for Quarri work and is fine for simpler, well-defined tasks. <strong>Avoid Haiku</strong> for Quarri - results will be hit and miss.</li>
+                <li><strong>If a run goes off the rails</strong> - upgrade the model (Sonnet &rarr; Opus) and/or switch from Chat to Cowork, then re-run. This resolves most issues.</li>
+            </ul>
+
+            <p class="body-text">You can select the mode (Chat / Cowork / Code) at the top of the Claude desktop window, and pick the model from the dropdown in the prompt box, as shown below:</p>
+            <img src="cowork-opus.png" alt="Claude desktop with Cowork mode and Opus 4.6 model selected" style="max-width: 100%; border-radius: 10px; border: 1px solid #e5e4e0; margin: 8px 0 24px 0;" />
+        </div>
+
+        <div class="divider"></div>
+
         <!-- ============ 1. QUERYING ============ -->
         <div class="reveal" style="animation-delay: 0.1s;">
             <div class="section-label">Core Features</div>
