@@ -434,12 +434,12 @@
             <div class="subsection-title">Recommended settings</div>
             <ul class="bullet-list">
                 <li><strong>Mode: use Cowork</strong> for any non-trivial Quarri task. Cowork gives Claude the tools and workspace it needs to run multi-step workflows end-to-end. Chat is fine for quick questions, but switch to Cowork as soon as things get more involved.</li>
-                <li><strong>Model: use Opus 4.6</strong> for complex workflows like accruals, reconciliations, building or editing skills, and multi-source joins. <strong>Sonnet is the minimum</strong> for Quarri work and is fine for simpler, well-defined tasks. <strong>Avoid Haiku</strong> for Quarri - results will be hit and miss.</li>
+                <li><strong>Model: use Opus 4.7</strong> for complex workflows like accruals, reconciliations, building or editing skills, and multi-source joins. <strong>Sonnet is the minimum</strong> for Quarri work and is fine for simpler, well-defined tasks. <strong>Avoid Haiku</strong> for Quarri - results will be hit and miss.</li>
                 <li><strong>If a run goes off the rails</strong> - upgrade the model (Sonnet &rarr; Opus) and/or switch from Chat to Cowork, then re-run. This resolves most issues.</li>
             </ul>
 
             <p class="body-text">You can select the mode (Chat / Cowork / Code) at the top of the Claude desktop window, and pick the model from the dropdown in the prompt box, as shown below:</p>
-            <img src="cowork-opus.png" alt="Claude desktop with Cowork mode and Opus 4.6 model selected" style="max-width: 100%; border-radius: 10px; border: 1px solid #e5e4e0; margin: 8px 0 24px 0;" />
+            <img src="cowork-opus.png" alt="Claude desktop with Cowork mode and Opus 4.7 model selected" style="max-width: 100%; border-radius: 10px; border: 1px solid #e5e4e0; margin: 8px 0 24px 0;" />
         </div>
 
         <div class="divider"></div>
@@ -609,6 +609,48 @@
                 <li>Data security and environment isolation</li>
                 <li>Live external data connectors (e.g. weather APIs, CPI feeds)</li>
             </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ BUILDING SKILLS ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">Advanced</div>
+            <div class="section-title">General Rules for Building Skills</div>
+            <p class="body-text">Skills are one of the most powerful things you can build in Quarri, but they are also the most iterative. A well-built skill will run reliably every time; a poorly built one will produce different answers on different runs, silently skip steps, or quietly hardcode data that should be queried live. These rules are a practical guide for getting skills right.</p>
+
+            <div class="subsection-title">Setup</div>
+            <ul class="bullet-list">
+                <li><strong>Work in Cowork mode on Opus.</strong> Skill design is complex multi-step work - do not try to build skills in Chat, and do not use Sonnet or Haiku. Opus + Cowork is the baseline.</li>
+                <li><strong>Build in your local instance first, not in Quarri.</strong> Tell Claude you want to create a skill and save it locally while you iterate. Only save it into Quarri once you are happy with the output.</li>
+            </ul>
+
+            <div class="subsection-title">The build loop</div>
+            <p class="body-text">Treat building a skill as a cycle, not a one-shot prompt. A reliable loop looks like this:</p>
+            <ul class="bullet-list">
+                <li><strong>1. Describe what you want in detail.</strong> Give Claude as much context, logic, edge cases, and watch-outs as you can. Typing is boring, but it is worth it - abridging the brief is the single biggest reason skills come out wrong.</li>
+                <li><strong>2. Test the skill in the context window.</strong> Actually run it against live data before saving.</li>
+                <li><strong>3. If the output is wrong or slow, diagnose first.</strong> Ask Claude to explain <em>why</em> it took a long time, or <em>why</em> it missed certain journals or lines, and to propose specific fixes to the skill. Don&rsquo;t jump straight to patching.</li>
+                <li><strong>4. Iterate until the output is correct.</strong> Re-run after each meaningful change.</li>
+                <li><strong>5. Export the skill to Word or text and read it end-to-end.</strong> Reading the full skill in one go is the best way to catch hidden watch-outs, inconsistencies, and hardcoding that slipped in during iteration.</li>
+                <li><strong>6. Save to Quarri only when you are happy.</strong> Once saved, test it once more in a fresh context window (see below).</li>
+            </ul>
+
+            <div class="subsection-title">Watch-outs when building skills</div>
+            <ul class="bullet-list">
+                <li><strong>Claude hardcodes data.</strong> When stuck, Claude has a habit of hardcoding values to make the output look right. This is not a real fix. Review every skill and challenge Claude to ensure it is genuinely repeatable and queries live data every run.</li>
+                <li><strong>Skills become bloated.</strong> Push back on length. Ask Claude to make the skill both <strong>as token-efficient as possible</strong> and <strong>concise</strong>. A long skill is not a better skill.</li>
+                <li><strong>Skills are recommendations, not guarantees.</strong> When you run a skill, Claude may ignore parts of it. This is almost always down to the <em>order</em> of instructions and the <em>wording</em>. Iterate until the critical rules are unmissable - for example, instructing Claude to always read a specific section first and follow it to the letter.</li>
+                <li><strong>Context windows get long.</strong> The entire chat is fed into every follow-up prompt, so long skill-building sessions become token-heavy fast. Periodically move to a fresh chat, carrying only the key information with you. If Claude starts to &ldquo;compact&rdquo; the chat (you&rsquo;ll see a loading bar sweep across the screen as it summarises the conversation to itself), it is time to move - compaction can lose important detail.</li>
+                <li><strong>Don&rsquo;t micro-iterate.</strong> Suggesting one tiny tweak at a time is slow, boring, and token-intensive. Review the output in full, compile a complete list of changes, and hand them over together. For large change sets, ask Claude to turn your review into a structured plan before executing.</li>
+                <li><strong>Always test deployed skills in a fresh context window.</strong> Claude can &ldquo;cheat&rdquo; by leaning on relics in the current chat to get the answer right, while the underlying skill is actually incomplete. A fresh session is the only honest test.</li>
+                <li><strong>Don&rsquo;t trust Claude blindly on complex tasks.</strong> For something like a reconciliation, Claude may do a spot check or lean on its context rather than reconciling from the ground up. Force a proper check where it matters - full reconciliations back to the database, completeness checks, line-level accuracy checks. This is how you spot shortcomings in the work.</li>
+            </ul>
+
+            <div class="card card-accent">
+                <h3>A final note</h3>
+                <p>Building skills - especially complex ones - is iterative, and sometimes frustrating. If you hit your token limit before you hit your credit card, take a break. Coming back with a fresh context window and fresh eyes is almost always faster than grinding through a bloated session.</p>
+            </div>
         </div>
 
         <!-- Support CTA -->
