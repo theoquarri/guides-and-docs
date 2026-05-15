@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarri — Shopify Onboarding Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { font-family: 'Archivo', sans-serif; background: #f7f6f3; color: #111111; line-height: 1.6; }
+
+        /* Hero */
+        .hero {
+            background: #111111;
+            color: #ffffff;
+            padding: 48px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -8%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(218,119,86,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: heroIn 0.8s ease-out;
+        }
+        .hero-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #da7756;
+            margin-bottom: 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        .hero h1 span { color: #da7756; }
+        .hero p {
+            font-size: 16px;
+            color: #b0aea5;
+            max-width: 720px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 32px;
+        }
+
+        /* Section headers */
+        .section-header {
+            margin-bottom: 36px;
+            animation: revealUp 0.6s ease-out backwards;
+        }
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #da7756;
+            margin-bottom: 8px;
+        }
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 6px;
+        }
+        .section-desc {
+            font-size: 15px;
+            color: #777777;
+            max-width: 720px;
+        }
+
+        /* Steps */
+        .step {
+            margin-bottom: 48px;
+            animation: revealUp 0.6s ease-out backwards;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: #da7756;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111111;
+        }
+        .step-text {
+            font-size: 14px;
+            color: #555555;
+            line-height: 1.7;
+            margin-bottom: 16px;
+            padding-left: 52px;
+        }
+        .step-text strong { font-weight: 600; color: #111111; }
+        .step-text a { color: #da7756; text-decoration: none; font-weight: 500; }
+        .step-text a:hover { color: #c66548; text-decoration: underline; }
+        .step-text ul {
+            list-style: none;
+            margin: 12px 0;
+            padding: 0;
+        }
+        .step-text ul li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 6px;
+        }
+        .step-text ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            background: #da7756;
+            border-radius: 50%;
+        }
+
+        /* Code blocks */
+        .code-block {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 8px 0 12px 52px;
+            display: inline-block;
+            letter-spacing: 0.3px;
+            word-break: break-all;
+        }
+        .code-block.full {
+            display: block;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        /* Field table */
+        .field-table {
+            margin: 12px 0 16px 52px;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            font-size: 13px;
+            width: calc(100% - 52px);
+            max-width: 800px;
+        }
+        .field-table th {
+            background: #f0efeb;
+            text-align: left;
+            padding: 10px 14px;
+            font-weight: 600;
+            color: #111111;
+            font-size: 12px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .field-table td {
+            padding: 10px 14px;
+            border-top: 1px solid #ececec;
+            color: #555555;
+            vertical-align: top;
+        }
+        .field-table td:first-child {
+            font-weight: 600;
+            color: #111111;
+            white-space: nowrap;
+        }
+        .field-table code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f5f4f1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #c66548;
+        }
+
+        /* Screenshot images */
+        .step-image {
+            margin: 16px 0 0 52px;
+        }
+        .step-image img {
+            display: block;
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid #e5e4e0;
+        }
+        .step-image.narrow img {
+            max-width: 520px;
+            width: auto;
+        }
+
+        /* Callout / Note */
+        .callout {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            border-left: 4px solid #da7756;
+            margin: 20px 0 20px 52px;
+            animation: revealUp 0.6s ease-out backwards;
+        }
+        .callout h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #111111;
+        }
+        .callout p {
+            font-size: 13.5px;
+            color: #555555;
+            line-height: 1.7;
+        }
+        .callout p + p { margin-top: 8px; }
+        .callout.warning { border-left-color: #d97706; }
+        .callout.warning h3::before {
+            content: '⚠';
+            margin-right: 8px;
+            color: #d97706;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: #e5e4e0;
+            margin: 56px 0;
+        }
+
+        /* Support CTA */
+        .support {
+            background: #111111;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            color: #ffffff;
+            margin-top: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .support::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(218,119,86,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .support h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .support p {
+            font-size: 14px;
+            color: #b0aea5;
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .support a {
+            color: #da7756;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            padding: 32px;
+            text-align: center;
+            color: #888888;
+            font-size: 12px;
+            border-top: 1px solid #e5e4e0;
+            margin-top: 48px;
+        }
+        footer a { color: #da7756; text-decoration: none; font-weight: 500; }
+        footer a:hover { color: #c66548; }
+
+        /* Animations */
+        @keyframes heroIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 28px; }
+            .container { padding: 32px 16px; }
+            .step-text, .code-block, .step-image, .callout, .field-table { margin-left: 0; padding-left: 0; width: 100%; }
+            .step-text { padding-left: 0; }
+            .step-image img { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-label">Onboarding Guide</div>
+            <h1>Connect <span>Shopify</span> to Quarri</h1>
+            <p>Set up a Shopify custom app so Quarri can pull your orders, customers, products, and inventory into a single source of truth. The whole process takes about 10 minutes.</p>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <!-- ============ WHAT YOU'LL NEED ============ -->
+        <div class="section-header" style="animation-delay: 0.1s;">
+            <div class="section-label">Before You Start</div>
+            <div class="section-title">What You'll Need</div>
+            <div class="section-desc">A quick checklist before we begin — gather these and the rest of the setup is paint-by-numbers.</div>
+        </div>
+
+        <div class="callout" style="margin-left: 0; animation-delay: 0.15s;">
+            <h3>Checklist</h3>
+            <p>• <strong>Owner-level access</strong> to your Shopify store (you need to be able to create custom apps).</p>
+            <p>• Your <strong>Shopify store ID</strong> — the prefix of your admin URL. For <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:2px 6px;border-radius:4px;color:#c66548;">yourstore.myshopify.com</code>, the store ID is <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:2px 6px;border-radius:4px;color:#c66548;">yourstore</code>.</p>
+            <p>• About <strong>10 minutes</strong>.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ PART 1: SHOPIFY APP ============ -->
+        <div class="section-header" style="animation-delay: 0.1s;">
+            <div class="section-label">Part 1 — Shopify</div>
+            <div class="section-title">Create the Custom App in Shopify</div>
+            <div class="section-desc">Quarri pulls data using a Shopify custom app you create inside your own store. This lives in your Shopify Dev Dashboard and is yours to manage and revoke at any time.</div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.15s;">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-title">Open Develop Apps</div>
+            </div>
+            <div class="step-text">
+                In your Shopify admin, go to <strong>Settings → Apps and sales channels → Apps</strong>, then click <strong>Develop apps</strong> in the top-right corner.
+            </div>
+            <div class="step-image">
+                <img src="shopify-onboarding-assets/01-develop-apps.png" alt="Shopify Apps page with Develop apps button highlighted">
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.2s;">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-title">Build apps in Dev Dashboard</div>
+            </div>
+            <div class="step-text">
+                Click <strong>Build apps in Dev Dashboard</strong>. This is Shopify's newer app management environment — it's required for new custom apps because the legacy custom-apps path has been deprecated.
+            </div>
+            <div class="step-image">
+                <img src="shopify-onboarding-assets/02-build-in-dev-dashboard.png" alt="Build apps in Dev Dashboard button">
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.25s;">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-title">Create the app</div>
+            </div>
+            <div class="step-text">
+                In the Dev Dashboard, click <strong>Create app</strong> in the top-right corner.
+            </div>
+            <div class="step-image">
+                <img src="shopify-onboarding-assets/03-create-app.png" alt="Create app button in Shopify Dev Dashboard">
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.3s;">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <div class="step-title">Name your app</div>
+            </div>
+            <div class="step-text">
+                Choose the <strong>Start from Dev Dashboard</strong> option (right-hand side, <em>not</em> the Shopify CLI option). Name the app something memorable like <strong>Quarri</strong> and click <strong>Create</strong>.
+            </div>
+            <div class="step-image narrow">
+                <img src="shopify-onboarding-assets/04-name-app.png" alt="Name the app Quarri and click Create">
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.35s;">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <div class="step-title">Configure the app URLs</div>
+            </div>
+            <div class="step-text">
+                Open the new app's <strong>Configuration</strong> tab. Shopify requires a few URL fields, but for a data integration like Quarri none of them are actually used at runtime — they're just required form fields. Fill them in as follows so the app is self-documenting later:
+            </div>
+            <table class="field-table">
+                <thead>
+                    <tr><th>Field</th><th>Value</th><th>Why</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>App URL</td>
+                        <td><code>https://quarri.ai</code></td>
+                        <td>Required field, but never traversed. Using Quarri's URL makes the app self-documenting.</td>
+                    </tr>
+                    <tr>
+                        <td>Preferences URL</td>
+                        <td><em>(leave blank)</em></td>
+                        <td>Optional. Only used by embedded apps with settings screens.</td>
+                    </tr>
+                    <tr>
+                        <td>Redirect URLs</td>
+                        <td><code>https://quarri.ai</code></td>
+                        <td>Required, but the client-credentials grant Quarri uses never redirects the user.</td>
+                    </tr>
+                    <tr>
+                        <td>Embed app in Shopify admin</td>
+                        <td>Off</td>
+                        <td>This isn't an embedded app.</td>
+                    </tr>
+                    <tr>
+                        <td>Use legacy install flow</td>
+                        <td>Off</td>
+                        <td>Stay on the modern flow.</td>
+                    </tr>
+                    <tr>
+                        <td>Webhooks API version</td>
+                        <td>Latest (e.g. <code>2026-04</code>)</td>
+                        <td>Default is fine. Quarri reads from the Admin API directly.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="step" style="animation-delay: 0.4s;">
+            <div class="step-header">
+                <div class="step-number">6</div>
+                <div class="step-title">Add the API scopes</div>
+            </div>
+            <div class="step-text">
+                In the <strong>Access scopes</strong> section of the Configuration tab, add each of the following read-only scopes to the <strong>Scopes</strong> field. These are the permissions Quarri needs to read your store data — and only the ones it needs. Quarri never writes anything back to Shopify.
+                <ul>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_assigned_fulfillment_orders</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_checkouts</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_fulfillments</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_inventory</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_locales</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_locations</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_marketing_events</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_marketplace_fulfillment_orders</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_merchant_managed_fulfillment_orders</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_orders</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_all_orders</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_payment_terms</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_products</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_publications</code></li>
+                    <li><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_own_subscription_contracts</code></li>
+                </ul>
+            </div>
+            <div class="callout">
+                <h3>Why <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_all_orders</code>?</h3>
+                <p>By default Shopify only exposes the last 60 days of orders. <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_all_orders</code> unlocks the full history so Quarri can build accurate year-over-year reporting.</p>
+            </div>
+            <div class="step-text">
+                Leave the <strong>Optional scopes</strong> field blank. Click <strong>Save</strong> at the bottom of the page.
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.45s;">
+            <div class="step-header">
+                <div class="step-number">7</div>
+                <div class="step-title">Install the app to your store</div>
+            </div>
+            <div class="step-text">
+                Back on the app's <strong>Overview</strong> page, click <strong>Install app</strong> in the top-right. You'll be asked to confirm the scopes — review them and accept.
+            </div>
+            <div class="step-image">
+                <img src="shopify-onboarding-assets/05-install-app.png" alt="Install app button on the Quarri app Overview page">
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.5s;">
+            <div class="step-header">
+                <div class="step-number">8</div>
+                <div class="step-title">Copy your credentials</div>
+            </div>
+            <div class="step-text">
+                Once the app is installed, open the <strong>API credentials</strong> tab. You'll see three values to send to Quarri:
+                <ul>
+                    <li><strong>Client ID</strong></li>
+                    <li><strong>Client secret</strong> (reveal it and copy — Shopify will let you view it again, but treat it like a password)</li>
+                    <li><strong>Store ID</strong> — the prefix of your <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">*.myshopify.com</code> URL</li>
+                </ul>
+            </div>
+            <div class="callout warning">
+                <h3>Treat the Client Secret like a password</h3>
+                <p>Anyone with these two values can read everything your scopes allow. Send them to Quarri via a secure channel (1Password share link, encrypted email, or our secure intake form) — not in a plain email or Slack message.</p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ PART 2: HAND OFF ============ -->
+        <div class="section-header" style="animation-delay: 0.1s;">
+            <div class="section-label">Part 2 — Quarri</div>
+            <div class="section-title">Hand the Credentials to Quarri</div>
+            <div class="section-desc">Once Quarri has your three values, we'll wire up the pipeline on our side. You don't need to touch the connector configuration yourself.</div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.15s;">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-title">Send us the credentials</div>
+            </div>
+            <div class="step-text">
+                Share your <strong>Client ID</strong>, <strong>Client secret</strong>, and <strong>Store ID</strong> with your Quarri contact. We'll let you know once the connector is live — typically within the same business day.
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.2s;">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-title">First sync</div>
+            </div>
+            <div class="step-text">
+                Quarri does an initial historical pull of your store (orders, customers, products, inventory, locations) and then keeps it incrementally up to date. The first full sync can take a couple of hours for larger stores; ongoing syncs are near-real-time.
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.25s;">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-title">Start querying</div>
+            </div>
+            <div class="step-text">
+                Once the first sync is complete, you can ask questions of your Shopify data in plain English through Claude — alongside data from your other systems. Example queries:
+                <ul>
+                    <li>"What were our top 10 products by revenue last month?"</li>
+                    <li>"Show me customers who bought twice in the last 90 days but haven't returned."</li>
+                    <li>"Compare AOV between TikTok Shop and the .com store, week by week."</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ FAQ ============ -->
+        <div class="section-header" style="animation-delay: 0.1s;">
+            <div class="section-label">FAQ</div>
+            <div class="section-title">Common Questions</div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.15s;">
+            <div class="step-header">
+                <div class="step-title">Is this read-only?</div>
+            </div>
+            <div class="step-text" style="padding-left: 0;">
+                Yes. Every scope above starts with <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#f5f4f1;padding:1px 6px;border-radius:4px;color:#c66548;">read_</code>. Quarri cannot create, modify, or delete anything in your store.
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.2s;">
+            <div class="step-header">
+                <div class="step-title">How do I revoke access?</div>
+            </div>
+            <div class="step-text" style="padding-left: 0;">
+                The app lives in your Shopify Dev Dashboard under your control. You can uninstall it from <strong>Settings → Apps and sales channels</strong> at any time, or rotate the Client secret to invalidate Quarri's access without uninstalling. Quarri's pipeline will stop receiving data the moment you do either.
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.25s;">
+            <div class="step-header">
+                <div class="step-title">Will this slow down my store?</div>
+            </div>
+            <div class="step-text" style="padding-left: 0;">
+                No. Quarri queries Shopify's Admin API on its own connection — it has no effect on your storefront performance.
+            </div>
+        </div>
+
+        <div class="step" style="animation-delay: 0.3s;">
+            <div class="step-header">
+                <div class="step-title">What plans does this work on?</div>
+            </div>
+            <div class="step-text" style="padding-left: 0;">
+                All Shopify plans. The modern client-credentials flow Quarri uses works on Basic, Shopify, Advanced, Plus, and Grow tiers without limitation.
+            </div>
+        </div>
+
+        <!-- ============ SUPPORT ============ -->
+        <div class="support">
+            <h3>Need a hand?</h3>
+            <p>Email <a href="mailto:theo@quarri.ai">theo@quarri.ai</a> if anything in this guide is unclear, or if you'd like us to screen-share through the setup. We'd rather you ask than guess.</p>
+        </div>
+
+    </div>
+
+    <footer>
+        Quarri Shopify Onboarding Guide &mdash; <a href="https://quarri.ai" target="_blank">quarri.ai</a>
+    </footer>
+
+</body>
+</html>
