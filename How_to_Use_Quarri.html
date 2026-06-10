@@ -326,10 +326,51 @@
         }
         .reveal { animation: revealUp 0.6s ease-out backwards; }
 
+        /* ===== Stack graphic (how Quarri works) ===== */
+        .qstack { background: #111111; border-radius: 14px; padding: 28px 28px 22px; margin: 24px 0 8px; font-family: 'JetBrains Mono', monospace; }
+        .qstack-cap { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #da7756; margin-bottom: 16px; text-align: center; }
+        .qstack-box { border: 1.5px solid rgba(218,119,86,0.55); border-radius: 12px; padding: 14px 16px; }
+        .qstack-head { display: flex; align-items: center; gap: 10px; padding-bottom: 8px; margin-bottom: 12px; border-bottom: 1px solid rgba(218,119,86,0.25); }
+        .qstack-q { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: 1.5px solid #da7756; border-radius: 5px; color: #da7756; font-weight: 700; font-size: 13px; }
+        .qstack-name { font-size: 14px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #da7756; }
+        .qstack-sub { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; }
+        .qstack-llms { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+        .qstack-llm { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 9px; background: rgba(218,119,86,0.10); border: 1px solid rgba(218,119,86,0.4); color: #fff; font-size: 13px; font-weight: 600; }
+        .qstack-dot { width: 6px; height: 6px; border-radius: 50%; background: #da7756; opacity: 0.75; flex: 0 0 auto; }
+        .qstack-foot { font-size: 10px; font-style: italic; color: rgba(255,255,255,0.55); margin-top: 10px; letter-spacing: 0.4px; }
+        .qstack-bridge { display: flex; justify-content: center; gap: 70px; padding: 12px 0; color: #da7756; font-size: 12px; font-weight: 700; letter-spacing: 3px; }
+        .qstack-bridge span { display: flex; align-items: center; gap: 8px; }
+        .qstack-rows { display: flex; flex-direction: column; gap: 10px; }
+        .qstack-group { position: relative; padding-right: 170px; }
+        .qstack-group::after { content: ''; position: absolute; right: 158px; top: 2px; bottom: 2px; width: 2px; background: rgba(218,119,86,0.6); }
+        .qstack-group-label { position: absolute; right: 0; width: 150px; top: 10px; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #da7756; }
+        .qstack-row { display: grid; grid-template-columns: 160px 1fr; gap: 12px; align-items: center; padding: 8px 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(218,119,86,0.28); border-radius: 8px; }
+        .qstack-row + .qstack-row { margin-top: 6px; }
+        .qstack-row-label { font-size: 12px; font-weight: 700; color: #fff; }
+        .qstack-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+        .qstack-pill { font-size: 11px; color: #d8d6cf; padding: 3px 9px; border-radius: 20px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); }
+        .qstack-tag { text-align: center; margin-top: 14px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+        .qstack-tag span { color: #da7756; font-weight: 700; }
+
+        /* ===== Capability ladder ===== */
+        .ladder-step { display: flex; gap: 18px; background: #ffffff; border: 1px solid #e5e4e0; border-left: 4px solid #da7756; border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+        .ladder-num { font-size: 24px; font-weight: 700; color: #da7756; line-height: 1; flex: 0 0 auto; width: 34px; }
+        .ladder-body h3 { font-size: 17px; font-weight: 600; color: #111111; margin-bottom: 6px; }
+        .ladder-body p { font-size: 14px; color: #555555; line-height: 1.7; }
+        .ladder-body .eg { font-size: 13px; color: #111111; background: #f5f0eb; border-radius: 6px; padding: 8px 12px; margin-top: 10px; display: inline-block; }
+
+        /* status tags in tables */
+        .t-warn { color: #c0392b; font-weight: 600; white-space: nowrap; }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 28px; }
             .container { padding: 32px 16px; }
             .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .qstack-llms { grid-template-columns: 1fr; }
+            .qstack-row { grid-template-columns: 1fr; gap: 6px; }
+            .qstack-group { padding-right: 0; }
+            .qstack-group::after { display: none; }
+            .qstack-group-label { position: static; width: auto; display: block; margin-bottom: 6px; }
         }
     </style>
 </head>
@@ -379,6 +420,42 @@
             <p class="body-text">The combination of Claude and Quarri gives you the best of both worlds: Claude&rsquo;s natural language understanding and reasoning paired with Quarri&rsquo;s deterministic, precise data tools.</p>
             <p class="body-text">In practice, this means you can describe what you need in plain English, and Claude will use Quarri&rsquo;s tools to query your database, build reports, generate dashboards, and execute workflows - all with traceable, auditable data underneath.</p>
 
+            <p class="body-text">The diagram below shows where Quarri sits: a deterministic data layer underneath whichever LLM your team uses. Claude reads from and writes to it, while Quarri handles the data work - connectors, schema, context and tools - precisely and repeatably.</p>
+
+            <div class="qstack">
+                <div class="qstack-cap">How Quarri works</div>
+
+                <div class="qstack-box">
+                    <div class="qstack-head"><span class="qstack-name">Horizontal AI</span><span class="qstack-sub">General-purpose LLMs</span></div>
+                    <div class="qstack-llms">
+                        <div class="qstack-llm"><span class="qstack-dot"></span>Anthropic</div>
+                        <div class="qstack-llm"><span class="qstack-dot"></span>OpenAI</div>
+                        <div class="qstack-llm"><span class="qstack-dot"></span>Open source</div>
+                    </div>
+                    <div class="qstack-foot">Model-agnostic surface. Skills ship to whichever LLM your team uses.</div>
+                </div>
+
+                <div class="qstack-bridge"><span>&darr; READ</span><span>&uarr; WRITE</span></div>
+
+                <div class="qstack-box">
+                    <div class="qstack-head"><span class="qstack-q">Q</span><span class="qstack-name">Quarri</span><span class="qstack-sub">&middot; an MCP plugin</span></div>
+                    <div class="qstack-rows">
+                        <div class="qstack-group">
+                            <div class="qstack-group-label">Product layer</div>
+                            <div class="qstack-row"><div class="qstack-row-label">Skills</div><div class="qstack-pills"><span class="qstack-pill">Cash flow</span><span class="qstack-pill">Account margin</span><span class="qstack-pill">Throughput vs lead time</span><span class="qstack-pill">Inventory optimisation</span></div></div>
+                        </div>
+                        <div class="qstack-group">
+                            <div class="qstack-group-label">Infrastructure</div>
+                            <div class="qstack-row"><div class="qstack-row-label">Deterministic execution</div><div class="qstack-pills"><span class="qstack-pill">100+ MCP tools</span><span class="qstack-pill">Versioned workflows</span></div></div>
+                            <div class="qstack-row"><div class="qstack-row-label">Context layer</div><div class="qstack-pills"><span class="qstack-pill">Semantic model</span><span class="qstack-pill">Vector store</span><span class="qstack-pill">Company glossary</span><span class="qstack-pill">Memory of work</span></div></div>
+                            <div class="qstack-row"><div class="qstack-row-label">Data layer</div><div class="qstack-pills"><span class="qstack-pill">Data warehouse</span><span class="qstack-pill">Agentic modelling</span><span class="qstack-pill">Company schema</span><span class="qstack-pill">RBAC</span><span class="qstack-pill">Read + write</span></div></div>
+                            <div class="qstack-row"><div class="qstack-row-label">Connectors &amp; ingestion</div><div class="qstack-pills"><span class="qstack-pill">Legacy ERP</span><span class="qstack-pill">Spreadsheets</span><span class="qstack-pill">Databases</span><span class="qstack-pill">PDFs</span><span class="qstack-pill">External</span></div></div>
+                        </div>
+                    </div>
+                    <div class="qstack-tag">Persistent &middot; <span>Cheaper</span> &middot; Faster &middot; <span>Contextualised</span> &middot; Vastly larger data</div>
+                </div>
+            </div>
+
             <div class="subsection-title">A note on accuracy</div>
             <p class="body-text">Because Quarri&rsquo;s data retrieval is deterministic, the data itself is always accurate. However, when Claude <em>analyses or interprets</em> that data - drawing conclusions, computing summaries, or pulling in external information - it&rsquo;s using its LLM capabilities, which are not deterministic. This means:</p>
 
@@ -402,22 +479,132 @@
 
         <div class="divider"></div>
 
-        <!-- ============ ACCESS LEVELS ============ -->
+        <!-- ============ BUILDING BLOCKS ============ -->
         <div class="reveal" style="animation-delay: 0.1s;">
-            <div class="section-label">Getting Started</div>
-            <div class="section-title">Access Levels</div>
-            <p class="body-text">Quarri supports different access levels depending on your role and Claude subscription:</p>
+            <div class="section-label">The Data Layer</div>
+            <div class="section-title">The Building Blocks of Your Quarri Data Layer</div>
+            <p class="body-text">Everything you build in Quarri is assembled from a few simple building blocks. Quarri can take in <strong>live connections</strong> to your systems and <strong>manual tables</strong> you maintain yourself, layer <strong>metrics</strong> and <strong>business rules</strong> on top, and wrap repeatable processes up as <strong>skills</strong>. The sections that follow go deeper on each - this is the map.</p>
 
             <table class="data-table">
                 <thead>
-                    <tr><th>Access Level</th><th>What you can do</th></tr>
+                    <tr><th>Building block</th><th>What it is</th><th>How you use it</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>Viewer (no Claude subscription)</td><td>View dashboards and reports shared with you via Quarri (e.g. links to app.quarri.ai or HTML exports).</td></tr>
-                    <tr><td>Viewer (with Claude subscription)</td><td>Everything above, plus ask questions of your data through Claude. Query, explore, and analyse interactively.</td></tr>
-                    <tr><td>Admin</td><td>Full access. Build custom workflows, save reports and dashboards into Quarri, manage skills, and configure automations.</td></tr>
+                    <tr><td>Connectors</td><td>Live feeds from your systems - ERP, Shopify, databases, IoT.</td><td>Set up by the Quarri team; data flows in and stays current automatically.</td></tr>
+                    <tr><td>Manual tables</td><td>An editable table you maintain inside Quarri - effectively a workbook that lives in the database.</td><td>Create and update in plain English, or ingest an Excel/PDF to populate it.</td></tr>
+                    <tr><td>Metrics</td><td>A saved computation mapped to a word or phrase.</td><td>Define it once, then just ask for it - Claude applies the same formula every time.</td></tr>
+                    <tr><td>Skills</td><td>Saved multi-step workflows and fixed outputs.</td><td>Build once, run on demand - a report, a journal, a reconciliation.</td></tr>
+                    <tr><td>Memory</td><td>Rules, definitions and company context.</td><td>Stored once and applied automatically on every relevant query.</td></tr>
                 </tbody>
             </table>
+
+            <div class="subsection-title">Manual tables: your editable workbook in Quarri</div>
+            <p class="body-text">A manual table is the right home for data that doesn&rsquo;t live in a connected system - membership values, contracts, a mapping table, budget figures. You maintain it inside Quarri and update it any time in natural language, or by dropping in a file. For higher volumes, the Quarri team can set up a document-ingestion route (an upload ticket plus a saved script) so a skill can sweep a ledger or a set of invoices straight into the table.</p>
+            <div class="prompt-box">&ldquo;Create a manual table in Quarri to track membership contract value - it should capture the contract value and the upload date.&rdquo;</div>
+            <p class="body-text">You can export any manual table back to Excel at any time - ask Claude to use the <strong>Data Retrieval</strong> skill so large tables don&rsquo;t overload the conversation.</p>
+
+            <div class="subsection-title">Metrics: a formula mapped to plain language</div>
+            <p class="body-text">A metric stores a calculation once and ties it to the words you&rsquo;d naturally use, so the number is consistent everywhere. You can tag a metric in the semantic layer so that whenever anyone asks for it, Claude uses the agreed formula rather than improvising.</p>
+            <div class="prompt-box">&ldquo;Create a metric called Membership Revenue that spreads the contract value across the contract term in months, and tag it in the semantic layer so asking for &lsquo;membership revenue&rsquo; uses it.&rdquo;</div>
+            <p class="body-text">Build a few of these and you can roll them into a single headline number - for example a net revenue metric that combines every component metric and respects your GL mapping.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ WHAT YOU CAN BUILD ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">What You Can Build</div>
+            <div class="section-title">From a Quick Chart to a Full Operational Tool</div>
+            <p class="body-text">The same building blocks support everything from a one-line answer to a full interactive application. It&rsquo;s worth knowing the range, so you can aim higher than just pulling numbers.</p>
+
+            <div class="ladder-step">
+                <div class="ladder-num">1</div>
+                <div class="ladder-body">
+                    <h3>Dashboards &amp; reports</h3>
+                    <p>Live, saved and shareable. Charts, tables and KPIs that stay connected to your data and refresh on their own - viewable in Quarri or shared as a link.</p>
+                    <span class="eg">e.g. a daily sales dashboard that updates from your live order data</span>
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="ladder-num">2</div>
+                <div class="ladder-body">
+                    <h3>Workflow automations</h3>
+                    <p>Repeatable processes that combine data, business rules and a formatted output - saved as skills and run on demand or each period.</p>
+                    <span class="eg">e.g. a daily sales journal that generates a posting-ready Excel on request</span>
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="ladder-num">3</div>
+                <div class="ladder-body">
+                    <h3>Interactive applications</h3>
+                    <p>Full operational tools, not just views. A purchase-order optimiser and production planner is a good example - built in about a day on a snapshot of a live system.</p>
+                    <span class="eg">e.g. a PO &amp; production scheduler for a sawmill (illustrative, anonymised below)</span>
+                </div>
+            </div>
+
+            <div class="subsection-title">Example: a PO &amp; production optimiser</div>
+            <p class="body-text">This tool sequences a purchase-order book against real mill capacity. It can optimise for either goal - <strong>maximise orders shipped on time</strong>, or <strong>minimise total days overdue</strong> - and it re-plans live as things change.</p>
+
+            <p class="body-text"><strong>Mill process &amp; throughput</strong> - the optimiser is throttled by the slowest stage:</p>
+            <table class="data-table">
+                <thead>
+                    <tr><th>Process stage</th><th>Role</th><th>Throughput (bf/wk)</th><th>Uptime</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Breakdown (head rig)</td><td>Saw logs</td><td>38,400</td><td>90%</td><td></td></tr>
+                    <tr><td>Edging &amp; trimming</td><td>Size &amp; square</td><td>31,200</td><td>92%</td><td></td></tr>
+                    <tr><td>Kiln drying</td><td>Dry to spec</td><td>9,800</td><td>64%</td><td><span class="t-warn">&#9888; bottleneck</span></td></tr>
+                    <tr><td>Planing</td><td>Surface &amp; profile</td><td>26,500</td><td>91%</td><td></td></tr>
+                    <tr><td>Grading &amp; packaging</td><td>Grade &amp; bundle</td><td>22,300</td><td>93%</td><td></td></tr>
+                </tbody>
+            </table>
+
+            <p class="body-text"><strong>Live run plan</strong> - auto-sequenced to clear the order book, routed through the real process and capped by the kiln:</p>
+            <table class="data-table">
+                <thead>
+                    <tr><th>Run</th><th>Product</th><th>Volume</th><th>Priority</th><th>Target ship</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>RUN-241</td><td>2&times;6 #2 &amp; Btr</td><td>18,000 bf</td><td>P1 &middot; critical</td><td>+6 days</td><td>In progress</td></tr>
+                    <tr><td>RUN-242</td><td>1&times;6 Select board</td><td>9,500 bf</td><td>P1 &middot; critical</td><td>+8 days</td><td>Scheduled</td></tr>
+                    <tr><td>RUN-243</td><td>2&times;4 stud</td><td>24,000 bf</td><td>P2</td><td>+11 days</td><td>Scheduled</td></tr>
+                    <tr><td>RUN-244</td><td>6&times;6 timber</td><td>7,200 bf</td><td>P2</td><td>+14 days</td><td>Queued</td></tr>
+                </tbody>
+            </table>
+
+            <p class="body-text">Change an order, a priority or a throughput figure and the whole plan re-sequences automatically - and because it&rsquo;s deterministic (ordinary code written around your data, not a probabilistic guess), the same inputs always produce the same plan.</p>
+
+            <ul class="bullet-list">
+                <li><strong>Every assumption is editable</strong> - throughputs, lead times, aged-stock cut-offs, priorities.</li>
+                <li><strong>Drag to re-plan</strong> - pin, freeze or hold an order and the knock-on effect on every other order recalculates live.</li>
+                <li><strong>Live-linkable</strong> - it runs on a point-in-time snapshot today, and can be connected to your live system when you&rsquo;re ready.</li>
+            </ul>
+            <p class="body-text" style="font-size: 13px; color: #888888;">Figures above are illustrative and anonymised.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ USERS & DATA ACCESS ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">Getting Started</div>
+            <div class="section-title">Users &amp; Data Access</div>
+            <p class="body-text">Everyone who works with Quarri is a <strong>user</strong> - you query, build and save through Claude in the same way. What differs from one user to the next is the <strong>data access</strong> you&rsquo;re granted: which sources you can see, how far into them you can go, and what you can add. Access is configured by your admin or the Quarri team, so each person sees exactly the data they should.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>What access governs</th><th>What it means for a user</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Data sources</td><td>Which connected systems, tables and manual tables you can query and build from.</td></tr>
+                    <tr><td>Row &amp; column scope</td><td>You can be scoped to certain rows (e.g. your region or entity) or have sensitive columns hidden - the same question returns only the data you&rsquo;re permitted to see.</td></tr>
+                    <tr><td>Adding data</td><td>Within your permissions you can create and populate your own manual tables and ingest documents, then query them alongside everything else.</td></tr>
+                    <tr><td>Building &amp; sharing</td><td>Save dashboards, reports and skills into Quarri - keep them to yourself or share them with your team.</td></tr>
+                </tbody>
+            </table>
+
+            <p class="body-text">Need access to a new source, or a wider view of an existing one? Ask your admin or the Quarri team and we&rsquo;ll update your permissions.</p>
 
             <div class="card card-accent">
                 <h3>Privacy setting</h3>
@@ -436,12 +623,12 @@
             <div class="subsection-title">Recommended settings</div>
             <ul class="bullet-list">
                 <li><strong>Mode: use Cowork</strong> for any non-trivial Quarri task. Cowork gives Claude the tools and workspace it needs to run multi-step workflows end-to-end. Chat is fine for quick questions, but switch to Cowork as soon as things get more involved.</li>
-                <li><strong>Model: use Opus 4.7</strong> for complex workflows like accruals, reconciliations, building or editing skills, and multi-source joins. <strong>Sonnet is the minimum</strong> for Quarri work and is fine for simpler, well-defined tasks. <strong>Avoid Haiku</strong> for Quarri - results will be hit and miss.</li>
+                <li><strong>Model: use Opus 4.8</strong> for complex workflows like accruals, reconciliations, building or editing skills, and multi-source joins. <strong>Sonnet is the minimum</strong> for Quarri work and is fine for simpler, well-defined tasks. <strong>Avoid Haiku</strong> for Quarri - results will be hit and miss.</li>
                 <li><strong>If a run goes off the rails</strong> - upgrade the model (Sonnet &rarr; Opus) and/or switch from Chat to Cowork, then re-run. This resolves most issues.</li>
             </ul>
 
             <p class="body-text">You can select the mode (Chat / Cowork / Code) at the top of the Claude desktop window, and pick the model from the dropdown in the prompt box, as shown below:</p>
-            <img src="cowork-opus.png" alt="Claude desktop with Cowork mode and Opus 4.7 model selected" style="max-width: 100%; border-radius: 10px; border: 1px solid #e5e4e0; margin: 8px 0 24px 0;" />
+            <img src="cowork-opus.png" alt="Claude desktop with Cowork mode and Opus 4.8 model selected" style="max-width: 100%; border-radius: 10px; border: 1px solid #e5e4e0; margin: 8px 0 24px 0;" />
         </div>
 
         <div class="divider"></div>
