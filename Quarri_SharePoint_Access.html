@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarri - SharePoint access setup</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { font-family: 'Archivo', sans-serif; background: #f7f6f3; color: #111111; line-height: 1.6; }
+
+        /* Hero */
+        .hero { background: #111111; color: #ffffff; padding: 56px 32px; position: relative; overflow: hidden; }
+        .hero::before {
+            content: ''; position: absolute; top: -40%; right: -8%; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(218,119,86,0.12) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+        .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; animation: heroIn 0.8s ease-out; }
+        .hero-label { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #da7756; margin-bottom: 16px; }
+        .hero h1 { font-size: 40px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
+        .hero h1 span { color: #da7756; }
+        .hero p { font-size: 16px; color: #b0aea5; max-width: 700px; }
+
+        /* Container */
+        .container { max-width: 1100px; margin: 0 auto; padding: 48px 32px; }
+
+        /* Section labels & titles */
+        .section-label { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #da7756; margin-bottom: 8px; }
+        .section-title { font-size: 28px; font-weight: 700; color: #111111; margin-bottom: 8px; }
+        .section-desc { font-size: 15px; color: #555555; line-height: 1.7; max-width: 800px; margin-bottom: 32px; }
+        .subsection-title { font-size: 20px; font-weight: 600; color: #da7756; margin: 32px 0 12px 0; }
+
+        /* Body text */
+        .body-text { font-size: 14px; color: #555555; line-height: 1.8; margin-bottom: 16px; max-width: 800px; }
+        .body-text strong { color: #111111; font-weight: 600; }
+        .body-text em { font-style: italic; }
+        .body-text a { color: #da7756; text-decoration: none; font-weight: 500; }
+        .body-text a:hover { color: #c66548; text-decoration: underline; }
+
+        /* Cards */
+        .card {
+            background: #ffffff; border-radius: 10px; padding: 24px 28px;
+            border: 1px solid #e5e4e0; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 20px;
+        }
+        .card-accent { border-left: 4px solid #da7756; }
+        .card h3 { font-size: 16px; font-weight: 600; color: #111111; margin-bottom: 8px; }
+        .card p { font-size: 14px; color: #555555; line-height: 1.7; }
+
+        /* Prompt / note boxes */
+        .prompt-box {
+            background: #f5f0eb; border-left: 4px solid #da7756; border-radius: 0 8px 8px 0;
+            padding: 14px 20px; margin: 12px 0 16px 0; font-size: 14px; font-style: italic;
+            color: #111111; max-width: 700px;
+        }
+
+        /* Bullet lists */
+        .bullet-list { list-style: none; padding: 0; margin: 12px 0 20px 0; max-width: 800px; }
+        .bullet-list li { font-size: 14px; color: #555555; line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
+        .bullet-list li::before {
+            content: ''; position: absolute; left: 0; top: 14px; width: 6px; height: 6px;
+            background: #da7756; border-radius: 50%;
+        }
+        .bullet-list li strong { color: #111111; font-weight: 600; }
+
+        /* Tables */
+        .data-table {
+            width: 100%; border-collapse: collapse; margin: 16px 0 24px 0; font-size: 13px;
+            border-radius: 10px; overflow: hidden; border: 1px solid #e5e4e0;
+        }
+        .data-table thead th { background: #111111; color: #ffffff; font-weight: 600; text-align: left; padding: 12px 16px; font-size: 13px; }
+        .data-table tbody td { padding: 12px 16px; border-bottom: 1px solid #e5e4e0; color: #555555; line-height: 1.6; }
+        .data-table tbody td:first-child { font-weight: 600; color: #111111; white-space: nowrap; }
+        .data-table tbody tr:nth-child(even) { background: #f7f6f3; }
+        .data-table tbody tr:last-child td { border-bottom: none; }
+
+        /* Numbered steps */
+        .ladder-step {
+            display: flex; gap: 18px; background: #ffffff; border: 1px solid #e5e4e0;
+            border-left: 4px solid #da7756; border-radius: 10px; padding: 20px 24px;
+            margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .ladder-num { font-size: 24px; font-weight: 700; color: #da7756; line-height: 1; flex: 0 0 auto; width: 34px; }
+        /* min-width:0 keeps the pre-formatted code block from forcing this flex item wide on narrow screens */
+        .ladder-body { min-width: 0; max-width: 100%; }
+        .ladder-body h3 { font-size: 17px; font-weight: 600; color: #111111; margin-bottom: 6px; }
+        .ladder-body p { font-size: 14px; color: #555555; line-height: 1.7; margin-bottom: 10px; }
+        .ladder-body p:last-child { margin-bottom: 0; }
+        .ladder-body strong { color: #111111; font-weight: 600; }
+        .ladder-body .eg { font-size: 13px; color: #111111; background: #f5f0eb; border-radius: 6px; padding: 8px 12px; margin-top: 10px; display: inline-block; }
+        .ladder-body ul { list-style: none; padding: 0; margin: 10px 0; }
+        .ladder-body ul li { font-size: 14px; color: #555555; line-height: 1.7; padding: 4px 0 4px 20px; position: relative; }
+        .ladder-body ul li::before {
+            content: ''; position: absolute; left: 0; top: 13px; width: 6px; height: 6px;
+            background: #da7756; border-radius: 50%;
+        }
+        .ladder-body ul li strong { color: #111111; }
+
+        /* Inline mono + code block */
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.92em; background: #f5f0eb; padding: 2px 6px; border-radius: 4px; color: #111111; }
+        .code-block {
+            background: #111111; border-radius: 12px; padding: 20px 24px; margin: 14px 0 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.75;
+            color: #e8e6e0; overflow-x: auto; white-space: pre;
+        }
+        .code-block .cmt { color: #8a8880; }
+        .code-block .arg { color: #da7756; }
+        .code-cap { font-size: 12px; color: #888888; margin: 0 0 4px; }
+
+        /* Divider */
+        .divider { height: 1px; background: #e5e4e0; margin: 48px 0; }
+
+        /* Grid */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 16px 0 24px 0; }
+
+        /* Support CTA */
+        .support {
+            background: #111111; border-radius: 12px; padding: 40px; text-align: center;
+            color: #ffffff; margin-top: 48px; position: relative; overflow: hidden;
+        }
+        .support::before {
+            content: ''; position: absolute; top: -50%; right: -15%; width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(218,119,86,0.08) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+        .support h3 { font-size: 22px; font-weight: 600; margin-bottom: 8px; position: relative; }
+        .support p { font-size: 14px; color: #b0aea5; position: relative; }
+
+        /* Footer */
+        footer { padding: 32px; text-align: center; color: #888888; font-size: 12px; border-top: 1px solid #e5e4e0; margin-top: 48px; }
+        footer a { color: #da7756; text-decoration: none; font-weight: 500; }
+        footer a:hover { color: #c66548; }
+
+        /* Animations */
+        @keyframes heroIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes revealUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { animation: revealUp 0.6s ease-out backwards; }
+
+        @media (max-width: 640px) {
+            .hero { padding: 40px 20px; }
+            .hero h1 { font-size: 30px; }
+            .container { padding: 36px 20px; }
+            .section-title { font-size: 23px; }
+            .ladder-step { padding: 18px; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-label">IT setup guide</div>
+            <h1>SharePoint access for <span>Quarri</span></h1>
+            <p>What we need from your team so Quarri can pick up files automatically from an agreed SharePoint document library, and file them into processed and archive folders once they are loaded. About fifteen minutes of work for someone with Entra ID and SharePoint admin rights.</p>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <!-- ============ HOW ACCESS WORKS ============ -->
+        <div class="reveal" style="animation-delay: 0.1s;">
+            <div class="section-label">Background</div>
+            <div class="section-title">How access works</div>
+            <p class="section-desc">Quarri connects to SharePoint through the Microsoft Graph API, using an app registration in your own Microsoft Entra ID tenant with the <span class="mono">Sites.Selected</span> application permission. This is Microsoft's current least-privilege model for exactly this scenario.</p>
+
+            <p class="body-text">It has three properties your security team will care about.</p>
+
+            <div class="grid-2">
+                <div class="card card-accent">
+                    <h3>Zero access by default</h3>
+                    <p>Even after admin consent, the app can reach no sites at all until you explicitly grant it access to a named site. It cannot browse, enumerate or discover anything else in your tenant.</p>
+                </div>
+                <div class="card card-accent">
+                    <h3>Scoped to the sites you choose</h3>
+                    <p>You grant access site by site, at a role you choose. We need Write on the one exchange site. Everything else in your SharePoint stays invisible to the app.</p>
+                </div>
+                <div class="card card-accent">
+                    <h3>Fully under your control</h3>
+                    <p>The app lives in your tenant. You can audit the grant, revoke it, or expire the credential at any time, cutting off access instantly.</p>
+                </div>
+            </div>
+
+            <div class="prompt-box">
+                Why not the older SharePoint App-Only method? That model, Azure ACS and SharePoint Add-ins, was permanently retired by Microsoft on 2 April 2026 and no longer works for any tenant. The Entra ID and Graph approach below is Microsoft's supported replacement.
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ SETUP STEPS ============ -->
+        <div class="reveal" style="animation-delay: 0.15s;">
+            <div class="section-label">Setup</div>
+            <div class="section-title">Setup steps</div>
+            <p class="section-desc">Six steps. Steps 2 to 5 are done in the Entra admin center and SharePoint; step 1 is a decision and step 6 is a reply to us.</p>
+
+            <div class="ladder-step">
+                <div class="ladder-num">1</div>
+                <div class="ladder-body">
+                    <h3>Create or choose the SharePoint site to share with Quarri</h3>
+                    <p>A dedicated site keeps the boundary clean. The grant in step 5 covers a whole site, so a purpose-made site means Quarri can never see anything unrelated.</p>
+                    <p>We suggest a site such as <span class="mono">https://&lt;yourtenant&gt;.sharepoint.com/sites/quarri-exchange</span>, with a document library containing folders like <span class="mono">inbox/</span>, <span class="mono">processed/</span> and <span class="mono">failed/</span>. An existing site works too, if you are comfortable granting write access to all of it.</p>
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="ladder-num">2</div>
+                <div class="ladder-body">
+                    <h3>Register an application in Microsoft Entra ID</h3>
+                    <p>This is the identity Quarri authenticates as. It is single-tenant: it exists only in your directory.</p>
+                    <p>In the Entra admin center, go to <strong>Identity &rarr; Applications &rarr; App registrations &rarr; New registration</strong>.</p>
+                    <ul>
+                        <li><strong>Name:</strong> Quarri Data Connector. Any clear name works.</li>
+                        <li><strong>Supported account types:</strong> accounts in this organisational directory only.</li>
+                        <li><strong>Redirect URI:</strong> leave blank. It is not needed for server-to-server access.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="ladder-num">3</div>
+                <div class="ladder-body">
+                    <h3>Add the Sites.Selected permission and grant admin consent</h3>
+                    <p>This is the only Graph permission the app needs. It deliberately grants nothing on its own. Step 5 is what actually opens a site.</p>
+                    <p>On the app registration, go to <strong>API permissions &rarr; Add a permission &rarr; Microsoft Graph &rarr; Application permissions &rarr; Sites.Selected &rarr; Add</strong>, then click <strong>Grant admin consent</strong>.</p>
+                    <p>Please do not add broader permissions such as <span class="mono">Sites.Read.All</span> or <span class="mono">Sites.ReadWrite.All</span>. We do not want them, and <span class="mono">Sites.Selected</span> is sufficient.</p>
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="ladder-num">4</div>
+                <div class="ladder-body">
+                    <h3>Create a credential for the app</h3>
+                    <p>This is what Quarri's servers use to sign in as the app.</p>
+                    <p><strong>Preferred: a client secret.</strong> Simplest to manage on both sides. On the app registration, go to <strong>Certificates &amp; secrets &rarr; New client secret</strong>. Choose an expiry of twelve to twenty-four months and note the date, because we will both want a reminder to rotate it. Copy the secret <strong>Value</strong> immediately, as it is only shown once.</p>
+                    <p><strong>Alternative: a certificate.</strong> If your policy prefers certificate credentials, we are happy to generate a key pair and send you the public certificate to upload instead. Tell us and we will include it with our reply.</p>
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="ladder-num">5</div>
+                <div class="ladder-body">
+                    <h3>Grant the app access to the site</h3>
+                    <p>This is the step that actually opens the door, and only to this one site. Write lets us download files and move them between folders. It does not allow site administration or permission changes.</p>
+                    <p class="code-cap">Using PnP PowerShell, run by a SharePoint administrator:</p>
+<div class="code-block">Connect-PnPOnline "https://&lt;yourtenant&gt;.sharepoint.com/sites/quarri-exchange" <span class="arg">-Interactive</span>
+
+Grant-PnPAzureADAppSitePermission `
+  <span class="arg">-AppId</span> "&lt;Application (client) ID from step 2&gt;" `
+  <span class="arg">-DisplayName</span> "Quarri Data Connector" `
+  <span class="arg">-Site</span> "https://&lt;yourtenant&gt;.sharepoint.com/sites/quarri-exchange" `
+  <span class="arg">-Permissions</span> Write</div>
+                    <p>You can verify or revoke the grant at any time with <span class="mono">Get-PnPAzureADAppSitePermission</span> and <span class="mono">Revoke-PnPAzureADAppSitePermission</span>. The same grant can also be made with a Graph API call to <span class="mono">POST /sites/{site-id}/permissions</span> if you prefer, and we are glad to provide that variant.</p>
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="ladder-num">6</div>
+                <div class="ladder-body">
+                    <h3>Send us the connection details</h3>
+                    <p>Everything except the secret is non-sensitive. Please share the secret value through a secure channel, such as a password manager share or an encrypted message, rather than plain email. We store it encrypted on our side.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ WHAT WE NEED BACK ============ -->
+        <div class="reveal" style="animation-delay: 0.2s;">
+            <div class="section-label">Reference</div>
+            <div class="section-title">What Quarri needs back</div>
+            <p class="section-desc">Six things. Five of them can come by email; the sixth should not.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Item</th><th>Where to find it</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Tenant ID</td><td>Directory (tenant) ID, from the app registration's Overview page</td></tr>
+                    <tr><td>Client ID</td><td>Application (client) ID, from the same page</td></tr>
+                    <tr><td>Client secret</td><td>The secret Value from step 4. Please send this through a secure channel</td></tr>
+                    <tr><td>Secret expiry</td><td>The date the secret expires, so we can coordinate rotation ahead of time</td></tr>
+                    <tr><td>Site URL</td><td>Full URL of the granted site</td></tr>
+                    <tr><td>Library &amp; folders</td><td>Document library name, and the folder layout you would like us to use, for example inbox, processed and failed</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ============ OPTIONAL HARDENING ============ -->
+        <div class="reveal" style="animation-delay: 0.25s;">
+            <div class="section-label">Advanced</div>
+            <div class="section-title">Optional hardening</div>
+            <p class="section-desc">None of this is required. It is here because security teams usually ask, and it is easier to answer up front.</p>
+
+            <div class="subsection-title">IP restriction</div>
+            <p class="body-text">Quarri's servers use a small set of static egress IP addresses, and we will supply the list. If you license Entra Workload ID Premium, a Conditional Access policy for workload identities can restrict this app's sign-ins to those addresses.</p>
+
+            <div class="subsection-title">Tighter than site scoping</div>
+            <p class="body-text">Microsoft also supports newer per-list and per-folder grants, <span class="mono">Files.SelectedOperations.Selected</span> and related permissions. We suggest the dedicated-site approach above instead, because it achieves the same isolation with much simpler administration. If your policy requires the granular model, we can work with it.</p>
+
+            <div class="subsection-title">Audit</div>
+            <p class="body-text">The app's activity appears in the Microsoft 365 unified audit log like any other Graph application, under the app's client ID.</p>
+        </div>
+
+        <!-- ============ SUPPORT ============ -->
+        <div class="support reveal" style="animation-delay: 0.3s;">
+            <h3>Any questions, ask</h3>
+            <p>We are glad to walk through any step on a call, or to do the PowerShell together while you hold the admin session.</p>
+        </div>
+
+    </div>
+
+    <footer>
+        Prepared by <a href="https://quarri.ai">Quarri</a> &middot; August 2026 &middot; Questions to your Quarri contact
+    </footer>
+
+</body>
+</html>
