@@ -1,0 +1,20 @@
+Hi {first_name},
+
+Welcome to Quarri. You should have an email inviting you to your Quarri account. Here's how to get going, in three steps.
+
+1. Connect Quarri to Claude (about 5 minutes)
+Sign in at app.quarri.ai with Google or Microsoft, or ask for a sign-in link by email. Then add Quarri to the Claude desktop app with the Quarri Onboarding Guide: https://theoquarri.github.io/guides-and-docs/Quarri_Onboarding_Guide.html
+The first section is for everyone; the second is a one-off setup for your Claude admin.
+
+2. Learn in the Quarri training space (about 10 minutes to start)
+In Claude, type "Get started with Quarri". You get your own copy of a demo business, Finn Sawmill, with two years of data and public price data beside it. A quick tour first, then the Build track (a dashboard and its alert, an order desk app and a weekly Excel report) or the Connect track (how data comes in and gets organised). Nothing you do there touches your own data.
+
+3. Build on your own data (when you're ready)
+Back in your own workspace, ask for what you need in plain English, for example "What should we build first?" or "Email me when weekly sales drop more than 10%". The guided builder plans it with you, then builds it. Dashboards, apps and alerts are built in Claude Code, in the Claude desktop app.
+The training space and guided builder: https://theoquarri.github.io/dashboards/Quarri-training-space-and-guided-builder.html
+How to Use Quarri: https://theoquarri.github.io/guides-and-docs/How_to_Use_Quarri.html
+
+If Claude reaches something it can't do, it can send your request straight to us. I'll also run a session with your team: just reply with a time that suits.
+
+Best,
+Theo
